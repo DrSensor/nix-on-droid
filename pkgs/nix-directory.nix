@@ -32,8 +32,6 @@ in
       hash = lib.fakeHash;
     };
 
-    PROOT_NO_SECCOMP = 1; # see https://github.com/proot-me/PRoot/issues/106
-
     buildPhase = ''
       # create nix state directory to satisfy nix heuristics to recognize the manual create /nix directory as valid nix store
       mkdir --parents ${buildRootDirectory}/nix/var/nix/db
