@@ -28,8 +28,8 @@ in
     name = "nix-directory";
 
     src = builtins.fetchurl {
-      url = "https://nixos.org/releases/nix/nix-2.16.1/nix-2.16.1-${config.build.arch}-linux.tar.xz";
-      sha256 = "1v7k1cajyxgaq3adrzykaf0a32n5pyrd7njy0rns1fma85y8n944";
+      url = "https://nixos.org/releases/nix/nix-${pkgsStatic.nix.version}/nix-${pkgsStatic.nix.version}-${config.build.arch}-linux.tar.xz";
+      hash = lib.fakeHash;
     };
 
     PROOT_NO_SECCOMP = 1; # see https://github.com/proot-me/PRoot/issues/106
