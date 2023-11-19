@@ -1,5 +1,6 @@
 # Copyright (c) 2019-2023, see AUTHORS. Licensed under MIT License, see LICENSE.
 {
+  lib,
   stdenv,
   fetchFromGitHub,
   talloc,
@@ -8,13 +9,13 @@
 }:
 stdenv.mkDerivation {
   pname = "proot-termux";
-  version = "unstable-2023-05-13";
+  version = "unstable-2023-11-11";
 
   src = fetchFromGitHub {
     repo = "proot";
     owner = "termux";
-    rev = "2d7c70eec7e2688e465c7bfba60c927fad0abfb1";
-    sha256 = "sha256-FgK5Rvl95yfH+aqTsJZ8HzSsCYIE3iLiQMFIlw0Z6oc=";
+    rev = "4af79603dae7a12d8767b61937d9e7e41e517701";
+    hash = lib.fakeHash;
   };
 
   # ashmem.h is rather small, our needs are even smaller, so just define these:
