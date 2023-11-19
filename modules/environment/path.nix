@@ -1,23 +1,20 @@
 # Copyright (c) 2019-2022, see AUTHORS. Licensed under MIT License, see LICENSE.
-
-{ config, lib, pkgs, ... }:
-
-with lib;
-
-let
-  cfg = config.environment;
-in
-
 {
-
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
+  cfg = config.environment;
+in {
   ###### interface
 
   options = {
-
     environment = {
       packages = mkOption {
         type = types.listOf types.package;
-        default = [ ];
+        default = [];
         description = "List of packages to be installed as user packages.";
       };
 
@@ -30,19 +27,16 @@ in
 
       extraOutputsToInstall = mkOption {
         type = types.listOf types.str;
-        default = [ ];
-        example = [ "doc" "info" "devdoc" ];
+        default = [];
+        example = ["doc" "info" "devdoc"];
         description = "List of additional package outputs to be installed as user packages.";
       };
     };
-
   };
-
 
   ###### implementation
 
   config = {
-
     build.activation.installPackages = ''
       if [[ -e "${config.user.home}/.nix-profile/manifest.json" ]]; then
         # manual removal and installation as two non-atomical steps is required
@@ -65,7 +59,7 @@ in
 
     environment = {
       packages = [
-        (pkgs.callPackage ../../nix-on-droid { nix = config.nix.package; })
+        (pkgs.callPackage ../../nix-on-droid {nix = config.nix.package;})
         pkgs.bashInteractive
         pkgs.cacert
         pkgs.coreutils
@@ -85,7 +79,5 @@ in
         };
       };
     };
-
   };
-
 }

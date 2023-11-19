@@ -1,7 +1,9 @@
 # Copyright (c) 2019-2022, see AUTHORS. Licensed under MIT License, see LICENSE.
-
-{ pkgs, home-manager-path, isFlake }:
-
+{
+  pkgs,
+  home-manager-path,
+  isFlake,
+}:
 [
   ./build/activation.nix
   ./build/config.nix
@@ -30,4 +32,5 @@
       pkgs = pkgs.lib.mkDefault pkgs;
     };
   }
-] ++ pkgs.lib.optionals (!isFlake) [ ./nixpkgs/config.nix ]
+]
+++ pkgs.lib.optionals (!isFlake) [./nixpkgs/config.nix]

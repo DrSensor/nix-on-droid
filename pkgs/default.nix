@@ -1,26 +1,27 @@
 # Copyright (c) 2019-2023, see AUTHORS. Licensed under MIT License, see LICENSE.
-
-{ nixpkgs
-, system
-, arch ? "aarch64"
-, nixOnDroidChannelURL ? null
-, nixpkgsChannelURL ? null
-, nixOnDroidFlakeURL ? null
-}:
-
-let
-  nixDirectory = callPackage ./nix-directory.nix { };
+{
+  nixpkgs,
+  system,
+  arch ? "aarch64",
+  nixOnDroidChannelURL ? null,
+  nixpkgsChannelURL ? null,
+  nixOnDroidFlakeURL ? null,
+}: let
+  nixDirectory = callPackage ./nix-directory.nix {};
   initialPackageInfo = import "${nixDirectory}/nix-support/package-info.nix";
 
-  pkgs = import nixpkgs { inherit system; };
+  pkgs = import nixpkgs {inherit system;};
 
-  urlOptionValue = url: envVar:
-    let
-      envValue = builtins.getEnv envVar;
-    in
+  urlOptionValue = url: envVar: let
+    envValue = builtins.getEnv envVar;
+  in
     pkgs.lib.mkIf
-      (envValue != "" || url != null)
-      (if url == null then envValue else url);
+    (envValue != "" || url != null)
+    (
+      if url == null
+      then envValue
+      else url
+    );
 
   modules = import ../modules {
     inherit pkgs;
@@ -28,7 +29,7 @@ let
     isFlake = true;
 
     config = {
-      imports = [ ../modules/build/initial-build.nix ];
+      imports = [../modules/build/initial-build.nix];
 
       _module.args = {
         inherit initialPackageInfo;
@@ -54,26 +55,26 @@ let
   };
 
   callPackage = pkgs.lib.callPackageWith (
-    pkgs // customPkgs // {
+    pkgs
+    // customPkgs
+    // {
       inherit (modules) config;
       inherit callPackage nixpkgs nixDirectory initialPackageInfo;
     }
   );
 
   customPkgs = {
-    bootstrap = callPackage ./bootstrap.nix { };
-    bootstrapZip = callPackage ./bootstrap-zip.nix { };
-    prootTermux = callPackage ./cross-compiling/proot-termux.nix { };
-    tallocStatic = callPackage ./cross-compiling/talloc-static.nix { };
+    bootstrap = callPackage ./bootstrap.nix {};
+    bootstrapZip = callPackage ./bootstrap-zip.nix {};
+    prootTermux = callPackage ./cross-compiling/proot-termux.nix {};
+    tallocStatic = callPackage ./cross-compiling/talloc-static.nix {};
     prootTermuxTest = callPackage ./proot-termux {
       inherit (pkgs) stdenv;
       static = false;
       outputBinaryName = "proot";
     };
   };
-in
-
-{
+in {
   inherit (modules) config;
   inherit customPkgs;
 }

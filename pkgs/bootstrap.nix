@@ -1,8 +1,14 @@
 # Copyright (c) 2019-2022, see AUTHORS. Licensed under MIT License, see LICENSE.
-
-{ runCommand, nixDirectory, prootTermux, bash, pkgs, config, initialPackageInfo }:
-
-runCommand "bootstrap" { } ''
+{
+  runCommand,
+  nixDirectory,
+  prootTermux,
+  bash,
+  pkgs,
+  config,
+  initialPackageInfo,
+}:
+runCommand "bootstrap" {} ''
   mkdir --parents $out/{.l2s,bin,dev/shm,etc,nix,root,tmp,usr/{bin,lib}}
 
   cp --recursive ${nixDirectory}/store $out/nix/store

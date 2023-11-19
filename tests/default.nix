@@ -1,8 +1,8 @@
 # Copyright (c) 2019-2022, see AUTHORS. Licensed under MIT License, see LICENSE.
-
-{ nixpkgs, system }:
-
-let
+{
+  nixpkgs,
+  system,
+}: let
   bootstrap = import ../pkgs {
     inherit nixpkgs system;
     nixOnDroidChannelURL = "file:///n-o-d/archive.tar.gz";
@@ -21,13 +21,12 @@ let
     zip
   ];
 in
-
-pkgs.runCommand
+  pkgs.runCommand
   "fakedroid"
-{
-  preferLocalBuild = true;
-  allowSubstitutes = false;
-}
+  {
+    preferLocalBuild = true;
+    allowSubstitutes = false;
+  }
   ''
     install -D -m755  ${./fakedroid.sh} $out
 

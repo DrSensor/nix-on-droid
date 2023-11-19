@@ -1,13 +1,14 @@
 # Copyright (c) 2019-2022, see AUTHORS. Licensed under MIT License, see LICENSE.
-
-{ config, lib, pkgs, ... }:
-
-with lib;
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
   cfg = config.user;
 
-  idsDerivation = pkgs.runCommandLocal "ids.nix" { } ''
+  idsDerivation = pkgs.runCommandLocal "ids.nix" {} ''
     cat > $out <<EOF
     {
       gid = $(${pkgs.coreutils}/bin/id -g);
@@ -17,14 +18,10 @@ let
   '';
 
   ids = import idsDerivation;
-in
-
-{
-
+in {
   ###### interface
 
   options = {
-
     user = {
       group = mkOption {
         type = types.str;
@@ -69,14 +66,11 @@ in
         '';
       };
     };
-
   };
-
 
   ###### implementation
 
   config = {
-
     environment.etc = {
       "group".text = ''
         root:x:0:
@@ -94,7 +88,5 @@ in
       home = "/data/data/com.termux.nix/files/home";
       userName = "nix-on-droid";
     };
-
   };
-
 }

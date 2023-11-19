@@ -7,10 +7,10 @@
     nix-on-droid.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { nix-on-droid, ... }: {
+  outputs = {nix-on-droid, ...}: {
     nixOnDroidConfigurations = {
       default = nix-on-droid.lib.nixOnDroidConfiguration {
-        modules = [ ./nix-on-droid.nix ];
+        modules = [./nix-on-droid.nix];
       };
     };
   };

@@ -9,10 +9,10 @@
     nix-on-droid.inputs.home-manager.follows = "home-manager";
   };
 
-  outputs = { nix-on-droid, ... }: {
+  outputs = {nix-on-droid, ...}: {
     nixOnDroidConfigurations = {
       device = nix-on-droid.lib.nixOnDroidConfiguration {
-        modules = [ ./nix-on-droid.nix ];
+        modules = [./nix-on-droid.nix];
       };
     };
   };

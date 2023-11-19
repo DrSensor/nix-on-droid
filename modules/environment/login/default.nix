@@ -1,23 +1,21 @@
 # Copyright (c) 2019-2023, see AUTHORS. Licensed under MIT License, see LICENSE.
-
-{ config, lib, pkgs, initialPackageInfo, ... }:
-
-with lib;
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  initialPackageInfo,
+  ...
+}:
+with lib; let
   cfg = config.environment.files;
 
-  login = pkgs.callPackage ./login.nix { inherit config; };
+  login = pkgs.callPackage ./login.nix {inherit config;};
 
-  loginInner = pkgs.callPackage ./login-inner.nix { inherit config initialPackageInfo; };
-in
-
-{
-
+  loginInner = pkgs.callPackage ./login-inner.nix {inherit config initialPackageInfo;};
+in {
   ###### interface
 
   options = {
-
     environment.files = {
       login = mkOption {
         type = types.package;
@@ -40,14 +38,11 @@ in
         description = "<literal>proot-static</literal> package.";
       };
     };
-
   };
-
 
   ###### implementation
 
   config = {
-
     build.activation = {
       installLogin = ''
         if ! diff /bin/login ${login} > /dev/null; then
@@ -84,7 +79,5 @@ in
 
       prootStatic = "/nix/store/yrrs22jsl1y8niwzs2vvk0vblicr3903-proot-termux-static-aarch64-unknown-linux-android-unstable-2023-05-13";
     };
-
   };
-
 }

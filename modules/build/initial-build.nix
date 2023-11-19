@@ -1,10 +1,11 @@
 # Copyright (c) 2019-2023, see AUTHORS. Licensed under MIT License, see LICENSE.
-
-{ config, lib, pkgs, ... }:
-
-with lib;
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
   defaultNixpkgsBranch = "nixos-23.05";
   defaultNixOnDroidBranch = "release-23.05";
 
@@ -13,14 +14,10 @@ let
 
   defaultNixpkgsFlake = "github:NixOS/nixpkgs/${defaultNixpkgsBranch}";
   defaultNixOnDroidFlake = "github:nix-community/nix-on-droid/${defaultNixOnDroidBranch}";
-in
-
-{
-
+in {
   ###### interface
 
   options = {
-
     build = {
       channel = {
         nixpkgs = mkOption {
@@ -49,26 +46,26 @@ in
           description = "Flake URL for Nix-on-Droid.";
         };
 
-        inputOverrides = mkEnableOption "" // {
-          description = ''
-            Whether to override the standard input URLs in the initial <filename>flake.nix</filename>.
-          '';
-        };
+        inputOverrides =
+          mkEnableOption ""
+          // {
+            description = ''
+              Whether to override the standard input URLs in the initial <filename>flake.nix</filename>.
+            '';
+          };
       };
     };
-
   };
-
 
   ###### implementation
 
   config = {
-
     build = {
       initialBuild = true;
 
       flake.inputOverrides =
-        config.build.flake.nixpkgs != defaultNixpkgsFlake
+        config.build.flake.nixpkgs
+        != defaultNixpkgsFlake
         || config.build.flake.nix-on-droid != defaultNixOnDroidFlake;
     };
 
@@ -79,7 +76,5 @@ in
       "passwd".enable = false;
       "UNINTIALISED".text = "";
     };
-
   };
-
 }

@@ -1,18 +1,17 @@
 # Copyright (c) 2019-2023, see AUTHORS. Licensed under MIT License, see LICENSE.
-
-{ config, lib, pkgs, ... }:
-
-with lib;
-
 {
-
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; {
   ###### interface
 
   options = {
-
     build = {
       arch = mkOption {
-        type = types.enum [ "aarch64" ];
+        type = types.enum ["aarch64"];
         default = "aarch64";
         internal = true;
         description = "Destination arch.";
@@ -38,20 +37,15 @@ with lib;
 
       extraProotOptions = mkOption {
         type = types.listOf types.str;
-        default = [ ];
+        default = [];
         description = "Extra options passed to proot, e.g., extra bind mounts.";
       };
     };
-
   };
-
 
   ###### implementation
 
   config = {
-
     build.installationDir = "/data/data/com.termux.nix/files/usr";
-
   };
-
 }
